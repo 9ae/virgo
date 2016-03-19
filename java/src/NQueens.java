@@ -1,19 +1,38 @@
+import java.util.LinkedList;
+
 
 public class NQueens {
 	
 	private int N;
 	private int[][] board;
 	
-	private static int backtrackingCounter =0;
+	public int backtrackingCounter =0;
+	public int checkTimes = 0;
 	
 	public NQueens(int N){
 		this.N = N;
 		board = new int[N][N];
-		backtrackingCounter = 0;
+	}
+	
+	public LinkedList<Integer> place(LinkedList<Integer> feasibleRows, Integer row, int col){
+		board[row.intValue()][col] = 1;
+
+		LinkedList<Integer> newRows = new LinkedList<Integer>();
+		for(Integer r: feasibleRows){
+			if(!r.equals(row)){
+				newRows.add(r);
+			}
+		}
+		return newRows;
+	}
+	
+	public void reset(int row, int col){
+		board[row][col] = 0;
 	}
 	
 	private boolean isSpaceFeasible(int row, int col)
     {
+		checkTimes++;
 		//check row
 		for(int i=0; i<N; i++){
 			if(board[row][i]==1){
@@ -34,25 +53,42 @@ public class NQueens {
 				return false;
 			}
 		}
+		for(int i=row, j=col; i>=0 && j>=0; i--, j-- ){
+			if(board[i][j]==1){
+				return false;
+			}
+		}
+		for(int i=row, j=col; i>=0 && j<N; i--, j++ ){
+			if(board[i][j]==1){
+				return false;
+			}
+		}
+		for(int i=row, j=col; i<N && j<N; i++, j++ ){
+			if(board[i][j]==1){
+				return false;
+			}
+		}
+		
 		return true;
     }
 	
-	private boolean isBoardFeasible(int n){
+	private boolean isBoardFeasible(LinkedList<Integer> feasibleRows, int n){
 		if(n >= N){
 			return true;
 		}
 		// Find a place for this queen, by iterating through cols and rows
-		for(int i=0; i<N; i++){
-			if(isSpaceFeasible(i, n)){
-				board[i][n] = 1;
-				
-				if(isBoardFeasible(n+1)){
+
+		for(Integer row: feasibleRows){
+			if(isSpaceFeasible(row.intValue(), n)){
+				LinkedList<Integer> newRows = place(feasibleRows, row, n);
+					
+				if(isBoardFeasible(newRows, n+1)){
 					return true;
 				}
 				
 				backtrackingCounter++;
-				board[i][n] = 0;
-			}
+				reset(row.intValue(), n);
+				}
 		}
 		
 		return false;
@@ -70,7 +106,7 @@ public class NQueens {
     }
 
 	public static void main(String[] args) {
-
+		/*
 		if(args.length != 1){
 			System.out.println("Please pass an int for the # of queens");
 			return;
@@ -84,6 +120,21 @@ public class NQueens {
 		} else {
 			System.out.println("Solution not found");
 		}
-
+	*/
+		System.out.println("N\tBacktrack\tTime");
+		for(int i=4; i<24; i++){
+			NQueens queens = new NQueens(i);
+			LinkedList<Integer> feasibleRows = new LinkedList<Integer>();
+			for(int j=0; j<i; j++){
+				feasibleRows.add(new Integer(j));
+			}
+			boolean possible = queens.isBoardFeasible(feasibleRows, 0);
+			
+			System.out.println(i+"\t"+queens.backtrackingCounter+"\t"+queens.checkTimes
+					+"\t"+possible);
+			/*if(possible){
+				queens.printSolution();
+			}*/
+		}
 	}
 }
