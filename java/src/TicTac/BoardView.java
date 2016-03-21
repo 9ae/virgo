@@ -5,8 +5,8 @@ import processing.core.*;
 
 public class BoardView extends PApplet{
 	
-	int boxSize = 100;
-	static int gridSize = 3;
+	int boxSize = 50;
+	static int gridSize = 9;
 	int screenSize;
 	static Game game;
 	String winner;
@@ -19,7 +19,7 @@ public class BoardView extends PApplet{
 	
 	public void setup(){
 		background(0);
-		textSize(90);
+		textSize((int)((float)25*0.9));
 		textAlign(LEFT, TOP);
 		noLoop();
 	}
