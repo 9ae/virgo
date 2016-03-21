@@ -9,6 +9,7 @@ public class BoardView extends PApplet{
 	static int gridSize = 3;
 	int screenSize;
 	static Game game;
+	String winner;
 	
 	public void settings() {
 		screenSize = boxSize*gridSize;
@@ -40,18 +41,26 @@ public class BoardView extends PApplet{
 				if(mark==null){
 					continue;
 				}
-				println(mark);
 				text(mark, x*boxSize+10, y*boxSize+10);
 			}
 		}
 	}
 
 	  public void draw() {
-		  drawGrid();
-		  drawBoard();
+			  drawGrid();
+			  drawBoard();
+		winner = game.getWinner();
+		  if(winner!=null){
+			  fill(color(255,0,0, 50));
+			  textSize(screenSize);
+			  text(winner, 0, 0);
+		  }
 	  }
 	  
 	  public void mousePressed(){
+		  if(winner!=null){
+			  return;
+		  }
 		  int x = pmouseX/boxSize;
 			int y = pmouseY/boxSize;
 
