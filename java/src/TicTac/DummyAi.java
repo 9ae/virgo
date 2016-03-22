@@ -2,18 +2,12 @@ package TicTac;
 
 import java.util.ArrayList;
 
-public class DummyAi implements Ai {
-	
-	private ArrayList<Projection> projections;
+public class DummyAi extends Ai {
+
 	private Coord[] goodSpots;
-	private Game game;
 	
 	public DummyAi(Game game) {
-		
-		this.game = game; 
-		
-		projections = new ArrayList<Projection>();
-		makeProjections();
+		super(game);
 		
 		goodSpots = new Coord[5];
 		goodSpots[0] = new Coord(game.N/2, game.N/2);
@@ -21,41 +15,6 @@ public class DummyAi implements Ai {
 		goodSpots[2] = new Coord(game.N-1, 0);
 		goodSpots[3] = new Coord(0, game.N-1);
 		goodSpots[4] = new Coord(game.N-1, game.N-1);
-		
-	}
-	
-	private void makeProjections(){
-		
-		Coord[] slashCells = new Coord[game.N];
-		for(int i=0; i<game.N; i++){
-			slashCells[i] = new Coord(i, i);
-		}
-		projections.add(new Projection(slashCells));
-		
-		int i=game.N-1; int j=0;
-		Coord[] bsCells = new Coord[game.N];
-		while(i>=0 && j<game.N){
-			bsCells[j] = new Coord(i, j);
-			i--;
-			j++;
-		}
-		projections.add(new Projection(bsCells));
-		
-		for(int r=0; r<game.N; r++){
-			Coord[] cells = new Coord[game.N];
-			for(int c=0; c<game.N; c++){
-				cells[c] = new Coord(c, r);
-			}
-			projections.add(new Projection(cells));
-		}
-		
-		for(int r=0; r<game.N; r++){
-			Coord[] cells = new Coord[game.N];
-			for(int c=0; c<game.N; c++){
-				cells[c] = new Coord(r, c);
-			}
-			projections.add(new Projection(cells));
-		}
 		
 	}
 	

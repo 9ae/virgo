@@ -1,6 +1,7 @@
 package TicTac;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
 	
@@ -50,6 +51,10 @@ public class Game {
 		return result;
 	}
 	
+	public int[][] copyBoard(){
+		return copyArray(board);
+	}
+	
 	public void printBoard(){
 		System.out.println("====");
 		for(int y=0; y<N; y++){
@@ -74,6 +79,17 @@ public class Game {
 			return null;
 		}
 		return winner==1 ? "X" : "O";
+	}
+	
+	public static int[][] copyArray(int[][] b){
+		int col = b[0].length;
+		int[][] a = new int[b.length][];
+		for(int i=0; i<b.length; i++){
+			for(int j=0; j<col; j++){
+				a[i][j] = b[i][j];
+			}
+		}
+		return a;
 	}
 
 }
